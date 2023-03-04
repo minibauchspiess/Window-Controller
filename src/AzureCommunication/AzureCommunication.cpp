@@ -44,13 +44,7 @@ float t = 23.4;
       unsigned long newLoopId = _connection.GetLoopId() + 1;
       _connection.SetLoopId(newLoopId);
       if (newLoopId % 2 == 0) {  // send telemetry
-        // pos = snprintf(msg, sizeof(msg) - 1, "{\"Temperature\": %f}",
-        //                t);
-        // errorCode = iotc_send_telemetry(_connection.context, String("{\"Temperature\": "+String(t)+"}").c_str(), pos);
-        
-        // pos = snprintf(msg, sizeof(msg) - 1, "{\"Humidity\":%f}",
-        //                h);
-        // errorCode = iotc_send_telemetry(context, msg, pos);
+        // _connection.SendTelemetry(String("{\"Temperature\": "+String(t)+"}"));
           
       } else {  // send property
         

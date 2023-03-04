@@ -30,6 +30,8 @@ public:
   static String GetLastRawCommand();
   static String GetLastCommandJson();
 
+  void SendTelemetry(String telemetryJson);
+
 private:
   static void _UpdateConnectionStatus(int statusCode);
 

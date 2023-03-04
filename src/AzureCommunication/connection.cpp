@@ -97,6 +97,10 @@ String Connection::GetLastCommandJson(){
   return lastCommand.substring(jsonBegining, jsonEnding);
 }
 
+void Connection::SendTelemetry(String telemetryJson){
+  iotc_send_telemetry(_context, telemetryJson.c_str(), telemetryJson.length());
+}
+
 bool Connection::IsConnected(){
   return _isConnected;
 }
