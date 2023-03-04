@@ -28,10 +28,14 @@ public:
   void SetContext(IOTContext newValue);
 
 private:
+  static void _UpdateConnectionStatus(int statusCode);
+
   unsigned long _lastTick = 0, _loopId = 0;
   IOTContext _context = NULL;
   static bool _isConnected;
 
+  static String _lastRawCommand;
+  static bool _newRawCommandIsAvailable;
 
   static constexpr const char* CONNECTION_STATUS = "ConnectionStatus";
   static constexpr const char* MESSAGE_SENT = "MessageSent";

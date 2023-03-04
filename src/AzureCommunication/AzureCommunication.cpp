@@ -30,6 +30,9 @@ float t = 23.4;
 
   
   if (_connection.IsConnected()) {
+    String rawCommand = Connection::GetLastRawCommand();
+    if(rawCommand == "") Serial.printf("Waiting %lu\r", millis());
+    else Serial.print("\nReceived command inside AC: " + rawCommand + "\n");
 
     unsigned long ms = millis();
     if (ms - _connection.GetLastTick() > 10000) {  // send telemetry every 10 seconds

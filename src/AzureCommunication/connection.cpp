@@ -2,6 +2,8 @@
 
 
 bool Connection::_isConnected = false;
+String Connection::_lastRawCommand = "";
+bool Connection::_newRawCommandIsAvailable = false;
 
 Connection::Connection()
 {
@@ -47,28 +49,34 @@ void Connection::ConnectClient(const char* scopeId, const char* deviceId,const c
 }
 
 void Connection::OnEvent(IOTContext ctx, IOTCallbackInfo* callbackInfo) {
-  // ConnectionStatus
+  Serial.printf("Received event %s\n", callbackInfo->eventName);
+
   if (strcmp(callbackInfo->eventName, CONNECTION_STATUS) == 0) {
-    _isConnected = callbackInfo->statusCode == IOTC_CONNECTION_OK;
+    _UpdateConnectionStatus(callbackInfo->statusCode);
+
     if(_isConnected) Serial.println("Connected to Azure");
     else Serial.println("Not connected to Azure");
 
-    return;
+  }
+  else if (strcmp(callbackInfo->eventName, MESSAGE_SENT) == 0){
+
+  }
+  else if (strcmp(callbackInfo->eventName, COMMAND) == 0){
+    Serial.printf("Raw command: %s\n", callbackInfo->payload);
+    _lastRawCommand = String(callbackInfo->payload);
+    _newRawCommandIsAvailable = true;
+  }
+  else if (strcmp(callbackInfo->eventName, SETTINGS_UPDATED) == 0){
+    
+  }
+  else{
+    Serial.println("Undefined event");
   }
 
-  // payload buffer doesn't have a null ending.
-  // add null ending in another buffer before print
-  AzureIOT::StringBuffer buffer;
-  if (callbackInfo->payloadLength > 0) {
-    buffer.initialize(callbackInfo->payload, callbackInfo->payloadLength);
-  }
+}
 
-  LOG_VERBOSE("- [%s] event was received. Payload => %s\n",
-              callbackInfo->eventName, buffer.getLength() ? *buffer : "EMPTY");
-
-  if (strcmp(callbackInfo->eventName, COMMAND) == 0) {
-    LOG_VERBOSE("- Command name was => %s\r\n", callbackInfo->tag);
-  }
+void Connection::_UpdateConnectionStatus(int statusCode){
+  _isConnected = statusCode == IOTC_CONNECTION_OK;
 }
 
 bool Connection::IsConnected(){
