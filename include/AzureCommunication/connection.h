@@ -1,6 +1,6 @@
+// Addapted from source code in https://github.com/adesolasamuel/NodeMCUtoAzureIoTCentral/blob/main/DHTDataToAzureIoTCentral.zip
+
 #pragma once
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license.
 
 #include <ESP8266WiFi.h>
 #include "iotc/string_buffer.h"
