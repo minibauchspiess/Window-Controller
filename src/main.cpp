@@ -1,10 +1,15 @@
 #include <Arduino.h>
 
+#include "AzureCommunication/AzureCommunication.h"
+
+AzureCommunication azure = AzureCommunication();
+
 void setup() {
   Serial.begin(115200);
+
+  azure.Setup();
 }
 
 void loop() {
-  Serial.println("Hello World\n");
-  delay(1000);
+  azure.Loop();
 }
