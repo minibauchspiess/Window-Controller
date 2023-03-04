@@ -6,7 +6,7 @@
 #include "iotc/string_buffer.h"
 #include "iotc/iotc.h"
 
-#include "connection.h"
+#include "Connection.h"
 
 #define DHTPIN 2
 
@@ -29,7 +29,7 @@ private:
     const char* DEVICE_ID = "***********";
     const char* DEVICE_KEY = "**********************************";
 
-    connection conn = connection();
+    Connection _connection = Connection();
 };
 
 

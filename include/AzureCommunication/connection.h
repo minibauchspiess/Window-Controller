@@ -2,30 +2,35 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 
-// src/connection.h
-
 #include <ESP8266WiFi.h>
 #include "iotc/string_buffer.h"
 #include "iotc/iotc.h"
 
-class connection
+class Connection
 {
 public:
   
-  connection(/* args */);
-  ~connection();
+  Connection();
+  ~Connection();
 
-  void connect_client(const char* scopeId, const char* deviceId, const char* deviceKey);
-  void connect_wifi(const char* wifi_ssid, const char* wifi_password);
-  static void on_event(IOTContext ctx, IOTCallbackInfo* callbackInfo);
+  void ConnectWifi(const char* wifi_ssid, const char* wifi_password);
+  void ConnectClient(const char* scopeId, const char* deviceId, const char* deviceKey);
 
+  static void OnEvent(IOTContext ctx, IOTCallbackInfo* callbackInfo);
+  
   bool IsConnected();
+  unsigned long GetLastTick();
+  unsigned long GetLoopId();
+  IOTContext GetContext();
 
-  unsigned long lastTick = 0, loopId = 0;
-  IOTContext context = NULL;
-  static bool isConnected;
+  void SetLastTick(unsigned long newValue);
+  void SetLoopId(unsigned long newValue);
+  void SetContext(IOTContext newValue);
+
 private:
-  /* data */
+  unsigned long _lastTick = 0, _loopId = 0;
+  IOTContext _context = NULL;
+  static bool _isConnected;
 };
 
 

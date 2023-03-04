@@ -16,11 +16,11 @@ AzureCommunication::~AzureCommunication()
 
 void AzureCommunication::Setup() {
 
-  conn.connect_wifi(WIFI_SSID, WIFI_PASSWORD);
-  conn.connect_client(SCOPE_ID, DEVICE_ID, DEVICE_KEY);
+  _connection.ConnectWifi(WIFI_SSID, WIFI_PASSWORD);
+  _connection.ConnectClient(SCOPE_ID, DEVICE_ID, DEVICE_KEY);
 
-  if (conn.context != NULL) {
-    conn.lastTick = 0;  // set timer in the past to enable first telemetry a.s.a.p
+  if (_connection.GetContext() != NULL) {
+    _connection.SetLastTick(0);  // set timer in the past to enable first telemetry a.s.a.p
   }
 }
 
@@ -29,18 +29,21 @@ void AzureCommunication::Loop() {
 float t = 23.4;
 
   
-  if (conn.IsConnected()) {
+  if (_connection.IsConnected()) {
 
     unsigned long ms = millis();
-    if (ms - conn.lastTick > 10000) {  // send telemetry every 10 seconds
+    if (ms - _connection.GetLastTick() > 10000) {  // send telemetry every 10 seconds
       char msg[64] = {0};
       int pos = 0, errorCode = 0;
 
-      conn.lastTick = ms;
-      if (conn.loopId++ % 2 == 0) {  // send telemetry
-        pos = snprintf(msg, sizeof(msg) - 1, "{\"Temperature\": %f}",
-                       t);
-        errorCode = iotc_send_telemetry(conn.context, String("{\"Temperature\": "+String(t)+"}").c_str(), pos);
+      _connection.SetLastTick(ms);
+
+      unsigned long newLoopId = _connection.GetLoopId() + 1;
+      _connection.SetLoopId(newLoopId);
+      if (newLoopId % 2 == 0) {  // send telemetry
+        // pos = snprintf(msg, sizeof(msg) - 1, "{\"Temperature\": %f}",
+        //                t);
+        // errorCode = iotc_send_telemetry(_connection.context, String("{\"Temperature\": "+String(t)+"}").c_str(), pos);
         
         // pos = snprintf(msg, sizeof(msg) - 1, "{\"Humidity\":%f}",
         //                h);
@@ -57,11 +60,11 @@ float t = 23.4;
       }
     }
 
-    iotc_do_work(conn.context);  // do background work for iotc
+    iotc_do_work(_connection.GetContext());  // do background work for iotc
   } else {
-    iotc_free_context(conn.context);
-    conn.context = NULL;
-    conn.connect_client(SCOPE_ID, DEVICE_ID, DEVICE_KEY);
+    iotc_free_context(_connection.GetContext());
+    _connection.SetContext(NULL);
+    _connection.ConnectClient(SCOPE_ID, DEVICE_ID, DEVICE_KEY);
   }
 
 }
