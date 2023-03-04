@@ -31,10 +31,13 @@ private:
   unsigned long _lastTick = 0, _loopId = 0;
   IOTContext _context = NULL;
   static bool _isConnected;
+
+
+  static constexpr const char* CONNECTION_STATUS = "ConnectionStatus";
+  static constexpr const char* MESSAGE_SENT = "MessageSent";
+  static constexpr const char* COMMAND = "Command";
+  static constexpr const char* SETTINGS_UPDATED = "SettingsUpdated";
 };
-
-
-
 
 
 
