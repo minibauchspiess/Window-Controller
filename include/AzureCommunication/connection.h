@@ -27,6 +27,8 @@ public:
   void SetLoopId(unsigned long newValue);
   void SetContext(IOTContext newValue);
 
+  static String GetLastRawCommand();
+
 private:
   static void _UpdateConnectionStatus(int statusCode);
 

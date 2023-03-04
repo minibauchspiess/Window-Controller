@@ -79,6 +79,13 @@ void Connection::_UpdateConnectionStatus(int statusCode){
   _isConnected = statusCode == IOTC_CONNECTION_OK;
 }
 
+String Connection::GetLastRawCommand(){
+  String lastCommand = _lastRawCommand;
+  _lastRawCommand = "";
+  _newRawCommandIsAvailable = false;
+  return lastCommand;
+}
+
 bool Connection::IsConnected(){
   return _isConnected;
 }
