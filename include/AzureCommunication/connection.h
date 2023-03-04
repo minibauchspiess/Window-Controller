@@ -28,6 +28,7 @@ public:
   void SetContext(IOTContext newValue);
 
   static String GetLastRawCommand();
+  static String GetLastCommandJson();
 
 private:
   static void _UpdateConnectionStatus(int statusCode);

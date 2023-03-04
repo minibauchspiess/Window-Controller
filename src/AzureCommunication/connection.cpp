@@ -86,6 +86,17 @@ String Connection::GetLastRawCommand(){
   return lastCommand;
 }
 
+String Connection::GetLastCommandJson(){
+  int jsonBegining, jsonEnding;
+  String lastCommand;
+
+  lastCommand = GetLastRawCommand();
+  jsonBegining = lastCommand.indexOf('{');
+  jsonEnding = lastCommand.indexOf('}') + 1;
+
+  return lastCommand.substring(jsonBegining, jsonEnding);
+}
+
 bool Connection::IsConnected(){
   return _isConnected;
 }
