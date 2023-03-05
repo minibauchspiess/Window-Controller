@@ -26,6 +26,8 @@ public:
 
     void Setup();
     void Loop();
+
+    void SetCommandFunctionsMap(std::map<String, void(*)(String)> functionsMap);
 private:
     StaticJsonDocument<300> _GetCommandAsJson(String rawCommands);
 

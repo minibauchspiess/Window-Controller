@@ -66,6 +66,10 @@ float t = 23.4;
 
 }
 
+void AzureCommunication::SetCommandFunctionsMap(std::map<String, void(*)(String)> functionsMap){
+  _commandFunctionsMap = functionsMap;
+}
+
 StaticJsonDocument<300> AzureCommunication::_GetCommandAsJson(String rawCommands){
   StaticJsonDocument<300> commandsJson;
 
