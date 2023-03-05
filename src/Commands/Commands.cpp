@@ -14,7 +14,9 @@ void dummyFunctionThree(String value){
 
 
 Commands::Commands()
-{
+{   
+    Serial.setTimeout(50);
+
     _commandFunctionsMap["One"] = dummyFunctionOne;
     _commandFunctionsMap["Two"] = dummyFunctionTwo;
     _commandFunctionsMap["Three"] = dummyFunctionThree;
@@ -26,4 +28,35 @@ Commands::~Commands()
 
 std::map<String, void(*)(String)> Commands::GetCommandFunctionsMap(){
     return _commandFunctionsMap;
+}
+
+String Commands::_ReadLineWithVerbose(){
+    String newLine = "";
+    if(Serial.available()){
+        bool timeout = false;
+        uint32_t timerStart = millis();
+
+        do{
+            String recentText = Serial.readString();
+            Serial.print(recentText);
+            newLine += recentText;
+
+            if(recentText != "") timerStart = millis();
+            timeout = (millis() - timerStart) > READ_LINE_TIMEOUT_MS;
+
+        }while((newLine.indexOf("\n") == -1) && !timeout);
+    }
+    return newLine;
+}
+
+void Commands::_ExtractCommandAndPayload(String line, String &command, String &payload){
+    int divisor = line.indexOf(" ");
+    if(divisor == -1){
+        command = line;
+        payload = "";
+    }
+    else{
+        command = line.substring(0, divisor);
+        payload = line.substring(divisor+1);
+    }
 }
