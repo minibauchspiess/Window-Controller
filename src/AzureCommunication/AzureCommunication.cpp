@@ -24,15 +24,15 @@ void AzureCommunication::Setup() {
   }
 }
 
+
 void AzureCommunication::Loop() {
 
 float t = 23.4;
-
   
   if (_connection.IsConnected()) {
     String rawCommand = Connection::GetLastCommandJson();
     if(rawCommand == "") Serial.printf("Waiting %lu\r", millis());
-    else Serial.print("\nReceived command inside AC: " + rawCommand + "\n");
+    else _ExecuteCommands(_GetCommandAsJson(rawCommand));
 
     unsigned long ms = millis();
     if (ms - _connection.GetLastTick() > 10000) {  // send telemetry every 10 seconds
@@ -64,4 +64,24 @@ float t = 23.4;
     _connection.ConnectClient(SCOPE_ID, DEVICE_ID, DEVICE_KEY);
   }
 
+}
+
+StaticJsonDocument<300> AzureCommunication::_GetCommandAsJson(String rawCommands){
+  StaticJsonDocument<300> commandsJson;
+
+  deserializeJson(commandsJson, rawCommands);
+
+  return commandsJson;
+}
+
+void AzureCommunication::_ExecuteCommands(StaticJsonDocument<300> commandsJson){
+
+  JsonObject commandsJsonObject = commandsJson.as<JsonObject>();
+  for(JsonPair command : commandsJsonObject){
+    Serial.printf("Command: %s. Payload: ", command.key().c_str());
+    Serial.println(command.value().as<String>());
+    if(command.key() == "OpenWindow"){
+      Serial.println("Opening window\n");
+    }
+  }
 }
