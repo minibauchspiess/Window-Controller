@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <map>
 
 #include <ESP8266WiFi.h>
 #include "iotc/string_buffer.h"
@@ -35,6 +36,8 @@ private:
 
 
     Connection _connection = Connection();
+
+    std::map<String, void(*)(String)> _commandFunctionsMap;
 };
 
 

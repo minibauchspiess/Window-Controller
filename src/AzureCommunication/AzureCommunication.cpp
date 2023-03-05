@@ -77,11 +77,18 @@ StaticJsonDocument<300> AzureCommunication::_GetCommandAsJson(String rawCommands
 void AzureCommunication::_ExecuteCommands(StaticJsonDocument<300> commandsJson){
 
   JsonObject commandsJsonObject = commandsJson.as<JsonObject>();
-  for(JsonPair command : commandsJsonObject){
-    Serial.printf("Command: %s. Payload: ", command.key().c_str());
-    Serial.println(command.value().as<String>());
-    if(command.key() == "OpenWindow"){
-      Serial.println("Opening window\n");
+  for(JsonPair commandPair : commandsJsonObject){
+    String command, payload;
+
+    command = String(commandPair.key().c_str());
+    payload = commandPair.value().as<String>();
+    Serial.printf("Command: %s. Payload: %s\n", command.c_str(), payload.c_str());
+
+    if(_commandFunctionsMap.find(command) != _commandFunctionsMap.end()){
+      _commandFunctionsMap[command](payload);
+    }
+    else{
+      Serial.println("Command not found");
     }
   }
 }
