@@ -27,13 +27,13 @@ public:
     void Setup();
     void Loop();
 private:
-    const char* SCOPE_ID = "********";
-    const char* DEVICE_ID = "***********";
-    const char* DEVICE_KEY = "**********************************";
     StaticJsonDocument<300> _GetCommandAsJson(String rawCommands);
 
     void _ExecuteCommands(StaticJsonDocument<300> commandsJson);
 
+    const char* SCOPE_ID = "********";
+    const char* DEVICE_ID = "***********";
+    const char* DEVICE_KEY = "**********************************";
 
     Connection _connection = Connection();
 
