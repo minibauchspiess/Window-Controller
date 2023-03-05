@@ -1,8 +1,10 @@
 #include <Arduino.h>
 
 #include "AzureCommunication/AzureCommunication.h"
+#include "Commands/Commands.h"
 
 AzureCommunication azure = AzureCommunication();
+Commands commands = Commands();
 
 void dummyFunctionOne(String value){
   Serial.printf("In first dummy function with value %s\n", value.c_str());
