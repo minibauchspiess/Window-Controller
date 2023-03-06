@@ -1,25 +1,9 @@
 #include "Commands/Commands.h"
 
-void dummyFunctionOne(String value){
-    Serial.printf("In first dummy function with value %s\n", value.c_str());
-}
-
-void dummyFunctionTwo(String value){
-    Serial.printf("In second dummy function with value %s\n", value.c_str());
-}
-
-void dummyFunctionThree(String value){
-    Serial.printf("In third dummy function with value %s\n", value.c_str());
-}
-
-
 Commands::Commands()
 {   
     Serial.setTimeout(50);
 
-    _commandFunctionsMap["One"] = dummyFunctionOne;
-    _commandFunctionsMap["Two"] = dummyFunctionTwo;
-    _commandFunctionsMap["Three"] = dummyFunctionThree;
     _commandFunctionsMap["WifiSSID"] = AzureCommunication::SetWifiSsid;
     _commandFunctionsMap["WifiPassword"] = AzureCommunication::SetWifiPassword;
     _commandFunctionsMap["Scope"] = AzureCommunication::SetScopeId;
