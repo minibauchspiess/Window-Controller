@@ -10,14 +10,6 @@
 
 #include "Connection.h"
 
-#define DHTPIN 2
-
-#define DHTTYPE DHT11   // DHT 11
-
-
-#define WIFI_SSID "*******"
-#define WIFI_PASSWORD "*******"
-
 class AzureCommunication
 {
 public:
@@ -28,14 +20,22 @@ public:
     void Loop();
 
     void SetCommandFunctionsMap(std::map<String, void(*)(String)> functionsMap);
+    static void SetWifiSsid(String ssid);
+    static void SetWifiPassword(String password);
+    static void SetScopeId(String scopeId);
+    static void SetDeviceId(String deviceId);
+    static void SetDeviceKey(String deviceKey);
 private:
     StaticJsonDocument<300> _GetCommandAsJson(String rawCommands);
 
     void _ExecuteCommands(StaticJsonDocument<300> commandsJson);
 
-    const char* SCOPE_ID = "********";
-    const char* DEVICE_ID = "***********";
-    const char* DEVICE_KEY = "**********************************";
+    static char _wifiSsid[50];
+    static char _wifiPassword[50];
+
+    static char _scopeId[50];
+    static char _deviceId[50];
+    static char _deviceKey[100];
 
     Connection _connection = Connection();
 

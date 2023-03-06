@@ -14,12 +14,23 @@ Connection::~Connection()
 }
 
 void Connection::ConnectWifi(const char* wifi_ssid, const char* wifi_password) {
-  WiFi.begin(wifi_ssid, wifi_password);
+  static char lastSsid[50] = "", lastPassword[50] = "";
+  bool changedParameter = false;
 
-  Serial.println("Connecting to WiFi..");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+  if(strcmp(lastSsid, wifi_ssid) != 0){
+    strcpy(lastSsid, wifi_ssid);
+    changedParameter = true;
   }
+  if(strcmp(lastPassword, wifi_password) != 0){
+    strcpy(lastPassword, wifi_password);
+    changedParameter = true;
+  }
+
+  if(changedParameter){
+    WiFi.begin(wifi_ssid, wifi_password);
+    Serial.println("Connecting to WiFi..");
+  }
+
 }
 
 void Connection::ConnectClient(const char* scopeId, const char* deviceId,const char* deviceKey) {
@@ -99,6 +110,10 @@ String Connection::GetLastCommandJson(){
 
 void Connection::SendTelemetry(String telemetryJson){
   iotc_send_telemetry(_context, telemetryJson.c_str(), telemetryJson.length());
+}
+
+bool Connection::isConnectedToWifi(){
+  return WiFi.status() == WL_CONNECTED;
 }
 
 bool Connection::IsConnected(){

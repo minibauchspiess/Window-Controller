@@ -20,6 +20,11 @@ Commands::Commands()
     _commandFunctionsMap["One"] = dummyFunctionOne;
     _commandFunctionsMap["Two"] = dummyFunctionTwo;
     _commandFunctionsMap["Three"] = dummyFunctionThree;
+    _commandFunctionsMap["WifiSSID"] = AzureCommunication::SetWifiSsid;
+    _commandFunctionsMap["WifiPassword"] = AzureCommunication::SetWifiPassword;
+    _commandFunctionsMap["Scope"] = AzureCommunication::SetScopeId;
+    _commandFunctionsMap["Device"] = AzureCommunication::SetDeviceId;
+    _commandFunctionsMap["Key"] = AzureCommunication::SetDeviceKey;
 }
 
 Commands::~Commands()
