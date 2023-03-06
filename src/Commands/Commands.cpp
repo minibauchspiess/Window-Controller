@@ -26,6 +26,15 @@ Commands::~Commands()
 {
 }
 
+void Commands::Update(){
+    String newLine = _ReadLineWithVerbose();
+    if(newLine != ""){
+        String command, payload;
+        _ExtractCommandAndPayload(newLine, command, payload);
+        _ExecuteCommand(command, payload);
+    }
+}
+
 std::map<String, void(*)(String)> Commands::GetCommandFunctionsMap(){
     return _commandFunctionsMap;
 }

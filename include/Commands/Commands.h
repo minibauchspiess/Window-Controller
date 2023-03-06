@@ -9,6 +9,8 @@ public:
     Commands();
     ~Commands();
 
+    void Update();
+
     std::map<String, void(*)(String)> GetCommandFunctionsMap();
 private:
     String _ReadLineWithVerbose();
