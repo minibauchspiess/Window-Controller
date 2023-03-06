@@ -82,3 +82,11 @@ void Commands::_ExtractCommandAndPayload(String rawLine, String &command, String
     }
 }
 
+void Commands::_ExecuteCommand(String command, String payload){
+    if(_commandFunctionsMap.find(command) != _commandFunctionsMap.end()){
+        _commandFunctionsMap[command](payload);
+    }
+    else{
+        Serial.println("Command not found");
+    }
+}

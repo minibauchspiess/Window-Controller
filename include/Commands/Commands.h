@@ -13,6 +13,7 @@ public:
 private:
     String _ReadLineWithVerbose();
     void _ExtractCommandAndPayload(String rawLine, String &command, String &payload);
+    void _ExecuteCommand(String command, String payload);
 
     std::map<String, void(*)(String)> _commandFunctionsMap;
 
