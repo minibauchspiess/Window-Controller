@@ -59,14 +59,26 @@ String Commands::_ReadLineWithVerbose(){
     return newLine;
 }
 
-void Commands::_ExtractCommandAndPayload(String line, String &command, String &payload){
-    int divisor = line.indexOf(" ");
+void Commands::_ExtractCommandAndPayload(String rawLine, String &command, String &payload){
+    int carriageReturnPosition, divisor;
+    
+    // Lines end with "\r\n". Removing eveything from \r and after
+    carriageReturnPosition = rawLine.indexOf("\r");
+    if(carriageReturnPosition != -1){
+        rawLine = rawLine.substring(0, carriageReturnPosition);
+    }
+    else{
+        Serial.println("\nNo carriage return in this raw command");
+    }
+
+    divisor = rawLine.indexOf(" ");
     if(divisor == -1){
-        command = line;
+        command = rawLine;
         payload = "";
     }
     else{
-        command = line.substring(0, divisor);
-        payload = line.substring(divisor+1);
+        command = rawLine.substring(0, divisor);
+        payload = rawLine.substring(divisor+1);
     }
 }
+
