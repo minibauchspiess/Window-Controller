@@ -18,6 +18,7 @@ public:
 
   static void OnEvent(IOTContext ctx, IOTCallbackInfo* callbackInfo);
   
+  bool isConnectedToWifi();
   bool IsConnected();
   unsigned long GetLastTick();
   unsigned long GetLoopId();
