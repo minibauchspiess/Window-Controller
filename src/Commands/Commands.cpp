@@ -38,10 +38,20 @@ String Commands::_ReadLineWithVerbose(){
 
         do{
             String recentText = Serial.readString();
-            Serial.print(recentText);
-            newLine += recentText;
 
-            if(recentText != "") timerStart = millis();
+            if(recentText != ""){
+                timerStart = millis();
+                if(recentText == "\b"){
+                    newLine = newLine.substring(0, newLine.length()-1);
+
+                    Serial.print("\b \b");
+                    Serial.print(" ");
+                    Serial.print("\b");
+                    recentText = "";
+                }
+                Serial.print(recentText);
+                newLine += recentText;
+            }
             timeout = (millis() - timerStart) > READ_LINE_TIMEOUT_MS;
 
         }while((newLine.indexOf("\n") == -1) && !timeout);
