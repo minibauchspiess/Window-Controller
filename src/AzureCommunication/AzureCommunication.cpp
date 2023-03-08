@@ -27,6 +27,12 @@ void AzureCommunication::Setup() {
   SetDeviceId(MemoryManager::ReadStringFromFile(MemoryManager::DEVICE_FILENAME));
   SetDeviceKey(MemoryManager::ReadStringFromFile(MemoryManager::KEY_FILENAME));
 
+  Serial.printf("_wifiSsid: %s\n", _wifiSsid);
+  Serial.printf("_wifiPassword: %s\n", _wifiPassword);
+  Serial.printf("_scopeId: %s\n", _scopeId);
+  Serial.printf("_deviceId: %s\n", _deviceId);
+  Serial.printf("_deviceKey: %s\n", _deviceKey);
+
   _connection.ConnectWifi(_wifiSsid, _wifiPassword);
   if(_connection.isConnectedToWifi())
     _connection.ConnectClient(_scopeId, _deviceId, _deviceKey);
