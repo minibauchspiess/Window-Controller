@@ -9,6 +9,7 @@
 #include "iotc/iotc.h"
 
 #include "Connection.h"
+#include "Memory/MemoryManager.h"
 
 class AzureCommunication
 {
