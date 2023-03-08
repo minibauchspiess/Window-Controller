@@ -45,8 +45,7 @@ void AzureCommunication::Loop() {
   else{
     if (_connection.IsConnected()) {
       String rawCommand = Connection::GetLastCommandJson();
-      if(rawCommand != "") Serial.printf("Waiting %lu\r", millis());
-      else _ExecuteCommands(_GetCommandAsJson(rawCommand));
+      if(rawCommand != "") _ExecuteCommands(_GetCommandAsJson(rawCommand));
 
       unsigned long ms = millis();
       if (ms - _connection.GetLastTick() > 10000) {  // send telemetry every 10 seconds
