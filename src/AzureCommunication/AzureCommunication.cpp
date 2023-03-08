@@ -50,31 +50,9 @@ void AzureCommunication::Loop() {
   }
   else{
     if (_connection.IsConnected()) {
+      
       String rawCommand = Connection::GetLastCommandJson();
       if(rawCommand != "") _ExecuteCommands(_GetCommandAsJson(rawCommand));
-
-      unsigned long ms = millis();
-      if (ms - _connection.GetLastTick() > 10000) {  // send telemetry every 10 seconds
-        char msg[64] = {0};
-        int pos = 0, errorCode = 0;
-
-        _connection.SetLastTick(ms);
-
-        unsigned long newLoopId = _connection.GetLoopId() + 1;
-        _connection.SetLoopId(newLoopId);
-        if (newLoopId % 2 == 0) {  // send telemetry
-          // _connection.SendTelemetry(String("{\"Temperature\": "+String(t)+"}"));
-            
-        } else {  // send property
-          
-        } 
-    
-        msg[pos] = 0;
-
-        if (errorCode != 0) {
-          LOG_ERROR("Sending message has failed with error code %d", errorCode);
-        }
-      }
 
       iotc_do_work(_connection.GetContext());  // do background work for iotc
     } else {
