@@ -1,14 +1,14 @@
 #include "Commands/Commands.h"
 
-Commands::Commands()
+Commands::Commands(AzureCommunication *azureRefference, WindowMotor *windowMotorRefference)
 {   
     Serial.setTimeout(50);
 
-    _commandFunctionsMap["WifiSSID"] = AzureCommunication::SetWifiSsid;
-    _commandFunctionsMap["WifiPassword"] = AzureCommunication::SetWifiPassword;
-    _commandFunctionsMap["Scope"] = AzureCommunication::SetScopeId;
-    _commandFunctionsMap["Device"] = AzureCommunication::SetDeviceId;
-    _commandFunctionsMap["Key"] = AzureCommunication::SetDeviceKey;
+    _commandFunctionsMap["WifiSSID"] = {AzureCommunication::SetWifiSsid, azureRefference};
+    _commandFunctionsMap["WifiPassword"] = {AzureCommunication::SetWifiPassword, azureRefference};
+    _commandFunctionsMap["Scope"] = {AzureCommunication::SetScopeId, azureRefference};
+    _commandFunctionsMap["Device"] = {AzureCommunication::SetDeviceId, azureRefference};
+    _commandFunctionsMap["Key"] = {AzureCommunication::SetDeviceKey, azureRefference};
 }
 
 Commands::~Commands()
@@ -24,7 +24,7 @@ void Commands::Update(){
     }
 }
 
-std::map<String, void(*)(String)> Commands::GetCommandFunctionsMap(){
+std::map<String, std::pair<FUNCTION_TARGET, void*>> Commands::GetCommandFunctionsMap(){
     return _commandFunctionsMap;
 }
 
@@ -82,7 +82,9 @@ void Commands::_ExtractCommandAndPayload(String rawLine, String &command, String
 
 void Commands::_ExecuteCommand(String command, String payload){
     if(_commandFunctionsMap.find(command) != _commandFunctionsMap.end()){
-        _commandFunctionsMap[command](payload);
+        std::pair<FUNCTION_TARGET, void*> commandPair;
+        commandPair = _commandFunctionsMap[command];
+        commandPair.first(commandPair.second, payload);
     }
     else{
         Serial.println("Command not found");

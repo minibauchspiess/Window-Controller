@@ -5,7 +5,8 @@
 #include "Memory/MemoryManager.h"
 
 AzureCommunication azure = AzureCommunication();
-Commands commands = Commands();
+WindowMotor windowMotor = WindowMotor();
+Commands commands = Commands(&azure, &windowMotor);
 
 
 void setup() {
