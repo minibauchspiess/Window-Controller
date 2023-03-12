@@ -9,6 +9,8 @@ Commands::Commands(AzureCommunication *azureRefference, WindowMotor *windowMotor
     _commandFunctionsMap["Scope"] = {AzureCommunication::SetScopeId, azureRefference};
     _commandFunctionsMap["Device"] = {AzureCommunication::SetDeviceId, azureRefference};
     _commandFunctionsMap["Key"] = {AzureCommunication::SetDeviceKey, azureRefference};
+    _commandFunctionsMap["Open"] = {WindowMotor::OpenWindow, windowMotorRefference};
+    _commandFunctionsMap["Close"] = {WindowMotor::CloseWindow, windowMotorRefference};
 }
 
 Commands::~Commands()

@@ -9,6 +9,13 @@ class WindowMotor
 public:
     WindowMotor();
     ~WindowMotor();
+
+    void OpenWindow();
+    static void OpenWindow(void* selfRefference, String);
+
+    void CloseWindow();
+    static void CloseWindow(void* selfRefference, String);
+
     bool isWindowOpen();
 private:
     bool _isOpen;
