@@ -1,6 +1,6 @@
 #include "WindowMotor/WindowMotor.h"
 
-WindowMotor::WindowMotor() : _motor(Motor(D0, D1))
+WindowMotor::WindowMotor() : _motor(Motor(D7, D6))
 {
 }
 
